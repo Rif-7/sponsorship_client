@@ -44,9 +44,9 @@ const StudentPage = () => {
     <Center>
       <Tabs position="relative" variant="unstyled">
         <TabList>
-          <Tab>Your Sponsorships</Tab>
-          <Tab>Your requests</Tab>
-          <Tab>Make new Request</Tab>
+          <Tab>Accepted Sponsorships</Tab>
+          <Tab>Pending Sponsorships</Tab>
+          <Tab>Make New Request</Tab>
         </TabList>
         <TabIndicator
           mt="-1.5px"

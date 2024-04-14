@@ -9,6 +9,7 @@ import RegisterSponsor from './components/Register/RegisterSponsor';
 import RegisterStudent from './components/Register/RegisterStudent';
 import { get_sponsor_details, get_student_details } from './api';
 import StudentHome from './components/Student/StudentHome';
+import SponsorHome from './components/Sponsor/SponsorHome';
 
 function App() {
   const [user, setUser] = useState({});
@@ -17,14 +18,19 @@ function App() {
     handleAuth();
   }, []);
 
+  const logoutUser = () => {
+    localStorage.setItem('token', '');
+    localStorage.setItem('accountType', '');
+    setUser({});
+  };
+
   const handleAuth = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
     const accountType = localStorage.getItem('accountType');
-    const res =
-      accountType === 'student'
-        ? await get_student_details(token)
-        : await get_sponsor_details(token);
+    const res = await (accountType === 'student'
+      ? get_student_details(token)
+      : get_sponsor_details(token));
     if (res.error) {
       console.log(res.error);
       return;
@@ -53,8 +59,26 @@ function App() {
             path="/signup-student"
             element={<RegisterStudent handleAuth={handleAuth} user={user} />}
           />
-          <Route path="/student" element={<StudentHome user={user} />} />
-          <Route path="/sponsor" element={<div>Sponsor</div>} />
+          <Route
+            path="/student"
+            element={
+              <StudentHome
+                logoutUser={logoutUser}
+                setUser={setUser}
+                user={user}
+              />
+            }
+          />
+          <Route
+            path="/sponsor"
+            element={
+              <SponsorHome
+                logoutUser={logoutUser}
+                setUser={setUser}
+                user={user}
+              />
+            }
+          />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </BrowserRouter>

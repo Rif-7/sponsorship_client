@@ -27,7 +27,8 @@ const get_sponsor_details = async token => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return await response.json();
+    const res = await response.json();
+    return res;
   } catch (err) {
     console.log(err);
     return { error: 'Error.' };
@@ -174,6 +175,71 @@ const get_student_requests = async () => {
   }
 };
 
+const get_all_requests = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Auth token not found. Try logging in again.' };
+    }
+
+    const response = await fetch(`${api_url}/sponsorships/all`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    return { error: 'Error.' };
+  }
+};
+
+const accept_sponsorship = async sponsorship_id => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Auth token not found. Try logging in again.' };
+    }
+    const response = await fetch(`${api_url}/${sponsorship_id}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    return { error: 'Error.' };
+  }
+};
+
+const get_accepted_sponsorships = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Auth token not found. Try logging in again.' };
+    }
+
+    const response = await fetch(`${api_url}/sponsorships/accepted`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    return { error: 'Error.' };
+  }
+};
+
 export {
   get_student_details,
   sign_up_student,
@@ -183,4 +249,7 @@ export {
   login_sponsor,
   request_sponsorship,
   get_student_requests,
+  get_all_requests,
+  accept_sponsorship,
+  get_accepted_sponsorships,
 };

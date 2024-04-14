@@ -47,7 +47,7 @@ export default function RegisterSponsor({ handleAuth, user }) {
       localStorage.setItem('accountType', 'sponsor');
       await handleAuth();
     }
-    setIsLoading(true);
+    setIsLoading(false);
   };
 
   if (user?.email) {

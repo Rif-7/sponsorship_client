@@ -1,18 +1,20 @@
 import { Box, VStack, Text, HStack, Divider } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 
-const AcceptedSponsorships = ({ accepted }) => {
+const Sponsored = ({ sponsorships, getSponsorships }) => {
+  console.log(sponsorships);
   return (
     <VStack gap={'30px'}>
-      {accepted.map(sponsorship => (
+      {sponsorships.map(sponsorship => (
         <Card key={uuid()} sponsorship={sponsorship} />
       ))}
     </VStack>
   );
 };
 
-const Card = props => {
-  const { name, amount, description, sponsor } = props.sponsorship;
+const Card = ({ sponsorship }) => {
+  const { name, amount, description, student } = sponsorship;
+
   return (
     <Box
       bg={'blue.100'}
@@ -26,14 +28,17 @@ const Card = props => {
       <HStack gap={'20px'} mb={'5px'} justify={'space-between'}>
         <VStack align={'start'}>
           <Text>By:</Text>
-          <Text fontWeight={'bold'}>{sponsor.company}</Text>
+          <Text
+            fontWeight={'bold'}
+          >{`${student.firstName} ${student.lastName}`}</Text>
         </VStack>
         <VStack align={'start'}>
-          <Text>Email:</Text>
-          <Text fontWeight={'bold'}>{sponsor.email}</Text>
+          <Text>Institution:</Text>
+          <Text fontWeight={'bold'}>{student.institution}</Text>
         </VStack>
       </HStack>
-      <HStack gap={'20px'} justify={'space-between'}>
+      <Divider />
+      <HStack mt={'5px'} gap={'20px'} justify={'space-between'}>
         <VStack align={'start'}>
           <Text>Name:</Text>
           <Text fontWeight={'bold'}>{name}</Text>
@@ -45,7 +50,6 @@ const Card = props => {
       </HStack>
       <VStack mt={'10px'} align={'start'}>
         <Divider />
-
         <Text>Description:</Text>
         <Text fontWeight={'bold'}>{description}</Text>
       </VStack>
@@ -53,4 +57,4 @@ const Card = props => {
   );
 };
 
-export default AcceptedSponsorships;
+export default Sponsored;

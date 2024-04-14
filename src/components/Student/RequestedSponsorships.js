@@ -15,6 +15,8 @@ const Card = props => {
   const { name, amount, description } = props.sponsorship;
   return (
     <Box
+      bg={'blue.100'}
+      color={'black'}
       minW={'400px'}
       boxShadow={'xl'}
       padding={'20px'}
@@ -26,7 +28,7 @@ const Card = props => {
           <Text>Name:</Text>
           <Text fontWeight={'bold'}>{name}</Text>
         </VStack>
-        <VStack>
+        <VStack align={'start'}>
           <Text>Amount:</Text>
           <Text fontWeight={'bold'}>{amount}$</Text>
         </VStack>
