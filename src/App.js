@@ -1,40 +1,63 @@
-import React from 'react';
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import Hero from './components/Hero/Hero';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginSponsor from './components/Login/LoginSponsor';
+import LoginStudent from './components/Login/LoginStudent';
+import RegisterSponsor from './components/Register/RegisterSponsor';
+import RegisterStudent from './components/Register/RegisterStudent';
+import { get_sponsor_details, get_student_details } from './api';
+import StudentHome from './components/Student/StudentHome';
 
 function App() {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    handleAuth();
+  }, []);
+
+  const handleAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const accountType = localStorage.getItem('accountType');
+    const res =
+      accountType === 'student'
+        ? await get_student_details(token)
+        : await get_sponsor_details(token);
+    if (res.error) {
+      console.log(res.error);
+      return;
+    }
+    setUser(res);
+  };
+
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Hero user={user} />} />
+          <Route
+            path="/login-sponsor"
+            element={<LoginSponsor handleAuth={handleAuth} user={user} />}
+          />
+          <Route
+            path="/signup-sponsor"
+            element={<RegisterSponsor handleAuth={handleAuth} user={user} />}
+          />
+          <Route
+            path="/login-student"
+            element={<LoginStudent handleAuth={handleAuth} user={user} />}
+          />
+          <Route
+            path="/signup-student"
+            element={<RegisterStudent handleAuth={handleAuth} user={user} />}
+          />
+          <Route path="/student" element={<StudentHome user={user} />} />
+          <Route path="/sponsor" element={<div>Sponsor</div>} />
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }
