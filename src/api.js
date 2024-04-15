@@ -1,5 +1,28 @@
 const api_url = 'http://localhost:4000';
 
+const requestBoilerplate = async (url, method, body = null) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Auth token not found. Try logging in again.' };
+    }
+    const response = await fetch(url, {
+      method,
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body,
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'Error.' };
+  }
+};
+
 const get_student_details = async token => {
   try {
     const response = await fetch(`${api_url}/users/student`, {
@@ -27,8 +50,7 @@ const get_sponsor_details = async token => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const res = await response.json();
-    return res;
+    return await response.json();
   } catch (err) {
     console.log(err);
     return { error: 'Error.' };
@@ -129,72 +151,23 @@ const login_sponsor = async (email, password) => {
 };
 
 const request_sponsorship = async (name, amount, description) => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return { error: 'Auth token not found. Try logging in again.' };
-    }
-    const response = await fetch(`${api_url}/`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name,
-        amount,
-        description,
-      }),
-    });
-
-    return await response.json();
-  } catch (err) {
-    return { error: 'Error.' };
-  }
+  return await requestBoilerplate(
+    `${api_url}/`,
+    'POST',
+    JSON.stringify({
+      name,
+      amount,
+      description,
+    })
+  );
 };
 
 const get_student_requests = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return { error: 'Auth token not found. Try logging in again.' };
-    }
-    const response = await fetch(`${api_url}/sponsorships/requested`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return await response.json();
-  } catch (err) {
-    return { error: 'Error.' };
-  }
+  return await requestBoilerplate(`${api_url}/sponsorships/requested`, 'GET');
 };
 
 const get_all_requests = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return { error: 'Auth token not found. Try logging in again.' };
-    }
-
-    const response = await fetch(`${api_url}/sponsorships/all`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return await response.json();
-  } catch (err) {
-    return { error: 'Error.' };
-  }
+  return await requestBoilerplate(`${api_url}/sponsorships/all`, 'GET');
 };
 
 const accept_sponsorship = async sponsorship_id => {
@@ -240,6 +213,10 @@ const get_accepted_sponsorships = async () => {
   }
 };
 
+const remove_sponsorship = async sponsorship_id => {
+  return await requestBoilerplate(`${api_url}/${sponsorship_id}`, 'DELETE');
+};
+
 export {
   get_student_details,
   sign_up_student,
@@ -252,4 +229,5 @@ export {
   get_all_requests,
   accept_sponsorship,
   get_accepted_sponsorships,
+  remove_sponsorship,
 };

@@ -56,10 +56,16 @@ const StudentPage = () => {
         />
         <TabPanels>
           <TabPanel>
-            <AcceptedSponsorships accepted={accepted} />
+            <AcceptedSponsorships
+              getSponsorships={getSponsorships}
+              accepted={accepted}
+            />
           </TabPanel>
           <TabPanel>
-            <RequestedSponsorships requests={requests} />
+            <RequestedSponsorships
+              getSponsorships={getSponsorships}
+              requests={requests}
+            />
           </TabPanel>
           <TabPanel>
             <RequestSponsorship getSponsorships={getSponsorships} />

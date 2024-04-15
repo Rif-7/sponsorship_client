@@ -8,7 +8,7 @@ const StudentHome = ({ logoutUser, user }) => {
     return <Navigate replace to={'/'} />;
   }
   return (
-    <Box w={'100vw'}>
+    <Box>
       <StudentNav user={user} logoutStudent={logoutUser} />
       <StudentPage />
     </Box>

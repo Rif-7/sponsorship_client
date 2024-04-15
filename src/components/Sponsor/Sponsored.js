@@ -2,7 +2,6 @@ import { Box, VStack, Text, HStack, Divider } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 
 const Sponsored = ({ sponsorships, getSponsorships }) => {
-  console.log(sponsorships);
   return (
     <VStack gap={'30px'}>
       {sponsorships.map(sponsorship => (
