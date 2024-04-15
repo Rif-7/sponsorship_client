@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import AllRequests from './AllRequests';
 import { get_accepted_sponsorships, get_all_requests } from '../../api';
 import Sponsored from './Sponsored';
+import Statistics from './Statistics';
 
 const SponsorPage = () => {
   const toast = useToast();
@@ -55,6 +56,7 @@ const SponsorPage = () => {
         <TabList>
           <Tab>Your Sponsorships</Tab>
           <Tab>All Sponsorships</Tab>
+          <Tab>Statistics</Tab>
         </TabList>
         <TabIndicator
           mt="-1.5px"
@@ -74,6 +76,9 @@ const SponsorPage = () => {
               getSponsorships={getSponsorships}
               requests={allRequests}
             />
+          </TabPanel>
+          <TabPanel>
+            <Statistics sponsorships={acceptedRequests} />
           </TabPanel>
         </TabPanels>
       </Tabs>
