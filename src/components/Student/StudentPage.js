@@ -13,8 +13,9 @@ import { useEffect, useState } from 'react';
 import { get_student_requests } from '../../api';
 import RequestedSponsorships from './RequestedSponsorships';
 import AcceptedSponsorships from './AcceptedSponsorships';
+import Certificate from './Certificate';
 
-const StudentPage = () => {
+const StudentPage = ({ user }) => {
   const toast = useToast();
 
   const [requests, setRequests] = useState([]);
@@ -47,6 +48,7 @@ const StudentPage = () => {
           <Tab>Accepted Sponsorships</Tab>
           <Tab>Pending Sponsorships</Tab>
           <Tab>Make New Request</Tab>
+          <Tab>Your Certificate</Tab>
         </TabList>
         <TabIndicator
           mt="-1.5px"
@@ -69,6 +71,9 @@ const StudentPage = () => {
           </TabPanel>
           <TabPanel>
             <RequestSponsorship getSponsorships={getSponsorships} />
+          </TabPanel>
+          <TabPanel>
+            <Certificate user={user} />
           </TabPanel>
         </TabPanels>
       </Tabs>

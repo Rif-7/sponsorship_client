@@ -1,5 +1,7 @@
-import { Box, Divider, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Divider, HStack, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const Statistics = ({ sponsorships }) => {
   const [stats, setStatistics] = useState([]);
@@ -16,6 +18,7 @@ const Statistics = ({ sponsorships }) => {
       if (!stats[curr.student._id]) {
         stats[curr.student._id] = {
           amount: curr.amount,
+          certificate: curr.student?.certificate_url,
           name: `${curr.student.firstName} ${curr.student.lastName}`,
           institution: curr.student.institution,
         };
@@ -29,7 +32,7 @@ const Statistics = ({ sponsorships }) => {
   return (
     <VStack gap={'10px'}>
       {Object.keys(stats).map(id => {
-        return <Card stat={stats[id]} />;
+        return <Card key={uuidv4()} stat={stats[id]} />;
       })}
     </VStack>
   );
@@ -65,6 +68,19 @@ const Card = ({ stat }) => {
           {stat.amount}$
         </Text>
       </Box>
+      {stat.certificate ? (
+        <Button
+          className="space"
+          fontWeight={'thin'}
+          alignSelf={'center'}
+          mt={'15px'}
+          colorScheme="blue"
+        >
+          <Link target="_blank" to={stat.certificate}>
+            View Certificate
+          </Link>
+        </Button>
+      ) : null}
     </Box>
   );
 };

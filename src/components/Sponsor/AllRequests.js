@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import { accept_sponsorship } from '../../api';
+import { Link } from 'react-router-dom';
 
 const AllRequests = ({ requests, getSponsorships }) => {
   const toast = useToast();
@@ -33,7 +34,6 @@ const AllRequests = ({ requests, getSponsorships }) => {
     });
     getSponsorships();
   };
-
   return (
     <VStack gap={'30px'}>
       {requests.map(sponsorship => (
@@ -95,6 +95,13 @@ const Card = ({ sponsorship, onSponsorshipAccept }) => {
       <Button onClick={handleClick} mt={'20px'} colorScheme={'blue'}>
         Sponsor
       </Button>
+      {student.certificate_url ? (
+        <Button ml="10px" mt={'20px'} colorScheme={'blue'}>
+          <Link target="_blank" to={student.certificate_url}>
+            View Certificate
+          </Link>
+        </Button>
+      ) : null}
     </Box>
   );
 };

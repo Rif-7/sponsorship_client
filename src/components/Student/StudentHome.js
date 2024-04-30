@@ -10,7 +10,7 @@ const StudentHome = ({ logoutUser, user }) => {
   return (
     <Box>
       <StudentNav user={user} logoutStudent={logoutUser} />
-      <StudentPage />
+      <StudentPage user={user} />
     </Box>
   );
 };

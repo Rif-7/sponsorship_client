@@ -217,6 +217,28 @@ const remove_sponsorship = async sponsorship_id => {
   return await requestBoilerplate(`${api_url}/${sponsorship_id}`, 'DELETE');
 };
 
+const upload_certificate = async formData => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Auth token not found. Try logging in again.' };
+    }
+    const response = await fetch(`${api_url}/certificate`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'Error.' };
+  }
+};
+
 export {
   get_student_details,
   sign_up_student,
@@ -230,4 +252,5 @@ export {
   accept_sponsorship,
   get_accepted_sponsorships,
   remove_sponsorship,
+  upload_certificate,
 };
