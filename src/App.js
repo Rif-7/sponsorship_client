@@ -10,6 +10,7 @@ import RegisterStudent from './components/Register/RegisterStudent';
 import { get_sponsor_details, get_student_details } from './api';
 import StudentHome from './components/Student/StudentHome';
 import SponsorHome from './components/Sponsor/SponsorHome';
+import Admin from './components/Admin/Admin';
 
 function App() {
   const [user, setUser] = useState({});
@@ -79,6 +80,7 @@ function App() {
               />
             }
           />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </BrowserRouter>

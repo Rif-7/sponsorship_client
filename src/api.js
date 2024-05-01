@@ -239,6 +239,31 @@ const upload_certificate = async formData => {
   }
 };
 
+const fetch_admin_data = async route => {
+  try {
+    const adminPass = localStorage.getItem('admin');
+    if (!adminPass) {
+      return { error: "You're not logged in" };
+    }
+
+    const response = await fetch(`${api_url}/admin/${route}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        admin: adminPass,
+      }),
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'Error' };
+  }
+};
+
 export {
   get_student_details,
   sign_up_student,
@@ -253,4 +278,5 @@ export {
   get_accepted_sponsorships,
   remove_sponsorship,
   upload_certificate,
+  fetch_admin_data,
 };
