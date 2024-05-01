@@ -45,13 +45,8 @@ const Admin = () => {
   const fetchAndSetData = async (dataname, setter) => {
     const res = await fetch_admin_data(dataname);
     if (res.error) {
-      return toast({
-        title: 'Error.',
-        description: res.error?.msg || res.error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      console.log(res.error);
+      return;
     }
     setter(res[dataname]);
   };

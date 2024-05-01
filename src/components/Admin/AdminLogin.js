@@ -1,6 +1,14 @@
-import { Button, Flex, FormLabel, Input, useToast } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  FormLabel,
+  Input,
+  LinkBox,
+  useToast,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { fetch_admin_data } from '../../api';
+import { Link } from 'react-router-dom';
 
 const AdminLogin = ({ setIsLogged }) => {
   const toast = useToast();
@@ -49,6 +57,9 @@ const AdminLogin = ({ setIsLogged }) => {
       <Button onClick={handleLogin} colorScheme="blue">
         Submit
       </Button>
+      <LinkBox textDecoration={'underline'}>
+        <Link to={'/'}>Home</Link>
+      </LinkBox>
     </Flex>
   );
 };

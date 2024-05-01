@@ -95,6 +95,20 @@ export default function Hero({ user }) {
                 I'm a Sponsor
               </Link>
             </Button>
+            <Button
+              rounded={'md'}
+              size={'lg'}
+              fontFamily={'monospace'}
+              fontWeight={'semi-bold'}
+              px={6}
+              colorScheme={'green'}
+              bg={'green.400'}
+              _hover={{ bg: 'green.500' }}
+            >
+              <Link to={`/admin`} className="raleway">
+                I'm an Admin
+              </Link>
+            </Button>
           </Stack>
         </Stack>
         <Flex
